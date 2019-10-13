@@ -1,0 +1,21 @@
+module gear(teeth, step, height=0.2) {
+    angle = 360/(teeth*2);
+    radius = (step/2) / sin(angle/2);
+    apothem = (step/2) / tan(angle/2);
+    
+    
+    module circles() {
+        for (i = [1:teeth])
+            rotate(i * angle * 2) translate([radius,0,0]) circle(step/2);
+    }
+    
+    linear_extrude(height) difference() {
+        union() {
+            circle(apothem);
+            circles();
+        }
+        rotate(angle) circles();
+    }
+}
+
+gear(teeth, step, height);
